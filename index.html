@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Random Number Generator</title>
+        <link rel="shortcut icon" href="https://img.icons8.com/ios/50/000000/real-number.png">
+        <link rel="stylesheet" type="text/css" href="style.css"> 
+    </head>
+    <body>
+        <div class="inputBox">
+            <h2>Random Number Generator</h2>
+            <input type="text" name="" placeholder="Create Number" id="number" readonly>
+            <div id="btn" onclick="generate();">
+                Generate Number
+            </div>
+
+            <script>
+                function generate() {
+                    var numbers = [10,20,30,40,50,60,70,80,90];
+
+                    var randomNumber = Math.floor(Math.random() * (numbers.length));
+                    document.getElementById('number').value = numbers[randomNumber];
+                }
+            </script>
+        </div>
+    </body>
+</html>
