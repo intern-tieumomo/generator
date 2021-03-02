@@ -7,17 +7,75 @@
     <body>
         <div class="inputBox">
             <h2>Random Number Generator</h2>
-            <input type="text" name="" placeholder="Create Number" id="number" readonly>
+            MIN <input class="min" type="text" name="" placeholder="Default 10" id="min" value="10"> .000<br>
+            MAX <input class="max" type="text" name="" placeholder="Default 100" id="max" value="100"> .000
+            <input class="number" type="text" name="" placeholder="Create Number" id="number" readonly>
             <div id="btn" onclick="generate();">
                 Generate Number
             </div>
 
+            <!-- The core Firebase JS SDK is always required and must be listed first -->
+            <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+            
+            <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
+            <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-analytics.js"></script>
+            
             <script>
-                function generate() {
-                    var numbers = [10,20,30,40,50,60,70,80,90];
+                // Your web app's Firebase configuration
+                // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+                var firebaseConfig = {
+                    apiKey: "AIzaSyDz1US0t2AJyTX9uYm9ig_oisnzEKlcN1s",
+                    authDomain: "generator-130718.firebaseapp.com",
+                    projectId: "generator-130718",
+                    storageBucket: "generator-130718.appspot.com",
+                    messagingSenderId: "408945249985",
+                    appId: "1:408945249985:web:8c817cca2705606d5a8e40",
+                    measurementId: "G-5YHHSDB3K5"
+                };
+                // Initialize Firebase
+                firebase.initializeApp(firebaseConfig);
+                firebase.analytics();
+            </script>
 
-                    var randomNumber = Math.floor(Math.random() * (numbers.length));
-                    document.getElementById('number').value = numbers[randomNumber];
+            <script>
+                // Restricts input for the given textbox to the given inputFilter.
+                function setInputFilter(textbox, inputFilter) {
+                    ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+                        textbox.addEventListener(event, function() {
+                            if (inputFilter(this.value)) {
+                                this.oldValue = this.value;
+                                this.oldSelectionStart = this.selectionStart;
+                                this.oldSelectionEnd = this.selectionEnd;
+                            } else if (this.hasOwnProperty("oldValue")) {
+                                this.value = this.oldValue;
+                                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                            } else {
+                                this.value = "";
+                            }
+                        });
+                    });
+                }
+
+                // Install input filters.
+                setInputFilter(document.getElementById("min"), function(value) {
+                    return /^-?\d*$/.test(value); 
+                });
+                setInputFilter(document.getElementById("max"), function(value) {
+                    return /^-?\d*$/.test(value); 
+                });
+
+                function generate() {
+                    var min = parseInt(document.getElementById('min').value) || 10;
+                    var max = parseInt(document.getElementById('max').value) || 100;
+
+                    if (min % 10 > 0) min = Math.ceil(min/10)*10;
+                    if (max % 10 > 0) max = Math.floor(max/10)*10;
+                    if (min <= max) {
+                        var randomNumber = Math.round((Math.floor(Math.random() * (max - min + 1) ) + min)/10)*10000;
+                        document.getElementById('number').value = randomNumber;
+                    } else {
+                        document.getElementById('number').value = "Please invert min and max !!";
+                    }
                 }
             </script>
         </div>
