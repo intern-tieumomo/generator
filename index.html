@@ -72,7 +72,7 @@
                     if (max % 10 > 0) max = Math.floor(max/10)*10;
                     if (min <= max) {
                         var randomNumber = Math.round((Math.floor(Math.random() * (max - min + 1) ) + min)/10)*10000;
-                        document.getElementById('number').value = randomNumber;
+                        document.getElementById('number').value = Intl.NumberFormat('vi-VN').format(randomNumber);
                     } else {
                         document.getElementById('number').value = "Please invert min and max !!";
                     }
